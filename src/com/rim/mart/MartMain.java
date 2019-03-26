@@ -13,7 +13,9 @@ public class MartMain {
 		product2.amount = 20;
 		product2.brand ="adidas";
 		
-	
+		ProductView pv = new ProductView();
+		pv.view(product);
+		pv.view(product2);
 
 	}
 
