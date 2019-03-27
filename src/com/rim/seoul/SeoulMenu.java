@@ -6,76 +6,38 @@ public class SeoulMenu {
 	public void start() {
 		Scanner sc = new Scanner(System.in);
 		Student[] students = null;
+		StudentView sv = new StudentView();
+		StudentSearch ss = new StudentSearch();
+		StudentInput si = new StudentInput();
 
 		while (true) {
-			System.out.println("1.정보입력 / 2.전체정보 / 3.개인정보 / 4.종료");
+			System.out.println("1.정보입력 / 2.전체정보 / 3.개인검색 / 4.종료");
 			int select = sc.nextInt();
 
 			if (select == 1) {
-				System.out.println("학생수 입력:");
-				int stu_num = sc.nextInt();
-				students = new Student[stu_num];
-
-				for (int i = 0; i < students.length; i++) {
-					Student student = new Student();
-
-					System.out.println("이름입력:");
-					student.name = sc.next();
-					System.out.println("번호입력:");
-					student.num = sc.nextInt();
-					System.out.println("kor:");
-					student.kor = sc.nextInt();
-					System.out.println("eng:");
-					student.eng = sc.nextInt();
-					System.out.println("math:");
-					student.math = sc.nextInt();
-
-					student.total = student.kor + student.eng + student.math;
-					student.avg = student.total / 3.0;
-					students[i] = student;
-				}
+				//1.정보입력
+				students =si.setStudent();
 			} else if (select == 2) {
-				if (students == null) {
-					System.out.println("등록된 정보가 없습니다.");
-				} else {
-					for (int i = 0; i < students.length; i++) {
-						System.out.println("[이름]: " + students[i].name);
-						System.out.println("번호: " + students[i].num);
-						System.out.println("국어: " + students[i].kor);
-						System.out.println("영어: " + students[i].eng);
-						System.out.println("수학: " + students[i].math);
-						System.out.println("총점: " + students[i].total);
-						System.out.println("평균: " + students[i].avg);
-					}
-				}
+				// 2.전체 정보 출력
+				sv.listView(students);
 			} else if (select == 3) {
-				if (students == null) {
+				// 3.개인정보 검색
+				
+				if (students == null) {// 등록된 학생이 아예 없는 경우
 					System.out.println("등록된 정보가 없습니다.");
-				} else {
-					System.out.println("검색할 학생 번호:");
-					int num = sc.nextInt();
-					boolean find = false;
+				} else { //등록된 학생이 있는 경우
+					Student find = ss.search(students); //찾는 학생이 있는지 확인
 
-					for (int i = 0; i < students.length; i++) {
-						if (num == students[i].num) {
-							System.out.println("[이름]: " + students[i].name);
-							System.out.println("번호: " + students[i].num);
-							System.out.println("국어: " + students[i].kor);
-							System.out.println("영어: " + students[i].eng);
-							System.out.println("수학: " + students[i].math);
-							System.out.println("총점: " + students[i].total);
-							System.out.println("평균: " + students[i].avg);
-							find = !find;
-						}
-					}
-					if (find == false) {
+					if (find == null) //찾는 학생이 없는 경우
 						System.out.println("해당 번호로 등록된 학생이 없습니다.");
-					}
+					else //찾는 학생이 있는 경우
+						sv.view(find); //그 학생 정보 출력
 				}
-			}else if(select==4) {
+			} else if (select == 4) {
+				// 4.프로그램 종료
 				System.out.println("프로그램 종료");
 				break;
-			}else {
+			} else {
 				System.out.println("1~4번 사이중에 선택하세요");
 			}
 			// end of else if
